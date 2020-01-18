@@ -1,40 +1,58 @@
 //1. Before you can make any part of your site work, you need to create an array of strings, each one related to a topic that interests you. Save it to a variable called `topics`.
 //   * We chose animals for our theme, but you can make a list to your own liking.
 var topics = ["mountains", "moons", "monsters"]
-    //2. Your app should take the topics in this array and create buttons in your HTML.
-var queryURL = $.get(`https://api.giphy.com/v1/gifs/random?api_key=nQfFTQdcuEY4gT3kQ5tX7ORFubjTOi4z&limit=10`);
-queryURL.done(function(data) { console.log("success got data", data); });
+let searchWord
+let api_key = 'api_key=nQfFTQdcuEY4gT3kQ5tX7ORFubjTOi4z'
+let resultLimit = '&limit=10'
+var queryURL = `https://api.giphy.com/v1/gifs/search?q=`
 
 let buttonMaker
 
-$(document).ready(function() {
 
+$(document).ready(function() {
+    //Make Button & Post Button
     for (let i = 0; i < topics.length; i++) {
         let buttonMaker =
-            $('<button>' + topics[i] + '</button>').attr("id", topics[i])
+            $('<button>' + topics[i] + '</button>').attr('data-name', topics[i])
         buttonMaker.appendTo("#buttonZone")
-    };
 
-    $("#submit").on("click", function(event) {
+    }
+    //click the button and initiate the search of the word
+    $(document).on("click", "data-name", function(event) {
         event.preventDefault();
-        let searchItem = $("#searchBar").val();
-        return queryURL
-        $.ajax({
-            url: queryURL,
-            method: "POST",
-
-        }).then(function(response) {
-            console.log(response)
-        })
+        searchWord = topics[i].toString()
+        searchWord = searchWord.val().trim()
+        return "$.(" + getqueryURL + searchWord + api_key + resultLimit + ")";
+        queryURL.done(function(data) { console.log("success got data", data); });
 
     })
-
-
-
-
-
-
 });
+//get Gif's - grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
+// let getGif =
+
+
+
+
+//   $("#submit").on("click", function(event) {
+//       event.preventDefault();
+//     //  let searchItem = $("#searchBar").val();
+//       return queryURL
+//       $.ajax({
+//           url: queryURL,
+//           method: "POST",
+//
+//       }).then(function(response) {
+//           console.log(response)
+//       })
+//
+//   })
+//
+//
+
+
+
+
+//});
 
 
 
