@@ -2,9 +2,9 @@
 //   * We chose animals for our theme, but you can make a list to your own liking.
 var topics = ["mountains", "moons", "monsters"]
 let searchWord
-let api_key = 'api_key=nQfFTQdcuEY4gT3kQ5tX7ORFubjTOi4z'
+let api_key = '&api_key=nQfFTQdcuEY4gT3kQ5tX7ORFubjTOi4z'
 let resultLimit = '&limit=10'
-var queryURL = `https://api.giphy.com/v1/gifs/search?q=`
+var queryURL = 'https://api.giphy.com/v1/gifs/search?q='
 
 let buttonMaker
 
@@ -20,17 +20,19 @@ for (let i = 0; i < topics.length; i++) {
 //click the button and initiate the search of the word
 $("#buttonZone").children().on("click", function() {
     console.log("clicked button")
-    searchWord = $(this).html()
+    searchWord = $(this).attr('data-name')
     console.log(searchWord)
-    queryURL = "$.(" + getqueryURL + searchWord + api_key + resultLimit + ")";
-    queryURL.done(function(data) {
-        console.log("success got data", data);
-
-        $.ajax({
+    queryURL = queryURL + searchWord + api_key + resultLimit;
+    console.log(queryURL)
+    $.ajax({
             url: queryURL,
-            method: "POST",
+            method: "GET",
         })
-    })
+        .then(function(response) {
+            console.log(response)
+                //    queryURL.done(function(data) {
+                //         console.log("success got data", data);
+        })
 });
 
 
