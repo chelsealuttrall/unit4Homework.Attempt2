@@ -9,24 +9,35 @@ var queryURL = `https://api.giphy.com/v1/gifs/search?q=`
 let buttonMaker
 
 
-$(document).ready(function() {
-    //Make Button & Post Button
-    for (let i = 0; i < topics.length; i++) {
-        let buttonMaker =
-            $('<button>' + topics[i] + '</button>').attr('data-name', topics[i])
-        buttonMaker.appendTo("#buttonZone")
 
-    }
-    //click the button and initiate the search of the word
-    $(document).on("click", "data-name", function(event) {
-        event.preventDefault();
-        searchWord = topics[i].toString()
-        searchWord = searchWord.val().trim()
-        return "$.(" + getqueryURL + searchWord + api_key + resultLimit + ")";
-        queryURL.done(function(data) { console.log("success got data", data); });
+//Make Button & Post Button
+for (let i = 0; i < topics.length; i++) {
+    let buttonMaker =
+        $('<button>' + topics[i] + '</button>').attr('data-name', topics[i]).attr('class', topics[i])
+    buttonMaker.appendTo("#buttonZone")
 
+}
+//click the button and initiate the search of the word
+$("#buttonZone").children().on("click", function() {
+    console.log("clicked button")
+    searchWord = $(this).html()
+    console.log(searchWord)
+    queryURL = "$.(" + getqueryURL + searchWord + api_key + resultLimit + ")";
+    queryURL.done(function(data) {
+        console.log("success got data", data);
+
+        $.ajax({
+            url: queryURL,
+            method: "POST",
+        })
     })
 });
+
+
+
+
+
+
 //get Gif's - grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
 // let getGif =
 
@@ -35,12 +46,9 @@ $(document).ready(function() {
 
 //   $("#submit").on("click", function(event) {
 //       event.preventDefault();
-//     //  let searchItem = $("#searchBar").val();
-//       return queryURL
-//       $.ajax({
-//           url: queryURL,
-//           method: "POST",
-//
+//     //  
+// searchWord
+//       
 //       }).then(function(response) {
 //           console.log(response)
 //       })
