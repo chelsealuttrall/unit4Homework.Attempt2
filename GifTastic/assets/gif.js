@@ -6,6 +6,7 @@ var queryURL = 'https://api.giphy.com/v1/gifs/search?q='
 
 let buttonMaker
 
+//for some reason it's not uploading to final site
 
 
 //Makin' Button & Postin' Button
