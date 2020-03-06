@@ -49,7 +49,7 @@ $("#buttonZone").children().on("click", function() {
             for (let i = 0; i < response.data.length; i++) {
                 var giphyURL = response.data[i].images.fixed_height_still.url
                 newImage = $('<img>')
-                newImage.attr("src", giphyURL)
+                newImage.attr("src", giphyURL).attr("id", response.data[i].id);
                 $("#searchResultsHTML").append(newImage);
 
             }
@@ -59,11 +59,18 @@ $("#buttonZone").children().on("click", function() {
 });
 
 
-$(newImage).on("click", function() {
-    console.log("Image is clicked");
-    //if (giphyURL == response.data[i].images.fixed_height_still.url) {
-    //     giphyURL = giphyURL = response.data[i].images.fixed_height.url
-    // } else {
-    //     giphyURL = response.data[i].images.fixed_height_still.url
-    // }
-});
+//$('<img/>').click.attr("src", this + '.images.fixed_height.url');
+//     title: 'Delete ' + fotos[f].Title
+// }).addClass("icon_delete").appendTo(galleryidentifier);
+
+// (function() {
+//         console.log(this.id);
+//if (giphyURL == response.data[i].images.fixed_height_still.url) {
+//     giphyURL = giphyURL = response.data[i].images.fixed_height.url
+// } else {
+//     giphyURL = response.data[i].images.fixed_height_still.url
+// }
+// }).attr({
+//     src: '/images/delete.gif',
+//     title: 'Delete ' + fotos[f].Title
+// }).addClass("icon_delete").appendTo(galleryidentifier);
