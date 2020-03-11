@@ -11,57 +11,74 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
+
     console.log("connected as id " + connection.threadId);
-    questions();
+
+
     afterConnection();
+
 });
 
-let questions() = (function() {
+function questions() {
     inquirer
-        .prompt([
-            "What is the ID of the product you'd like to buy?"
-        ])
-        .then(answers => [
-            "How many " + answers + " would you like to buy?"
-        ])
-        .then(answers => [
+        .prompt([{
+            name: "id",
+            type: "input",
+            message: "What is the [ITEM_ID] of the product you'd like to buy?"
+        }, {
+            name: "qty",
+            type: "number",
+            message: "How many would you like to buy?"
+        }])
+        .then(answers => {
             //log product and quantity
-            console.log(answers)
-            //check db for qty and remove or error insufficient qty, and stop purchase.
+            console.log(answers.id)
+            console.log(answers.qty)
 
+            readProducts();
+            //check db for qty and remove or error insufficient qty, and stop purchase.
+            //return readProducts();
             //show total cost of purchase.
             //update DB
-        ])
+        })
         .catch(error => {
             if (error.isTtyError) {
                 "Prompt couldn't be rendered in current environment."
             } else {
                 "Something went wrong. Come back again later."
-            }
-        });
-})
-
-
-
+            };
+        })
+}
 
 
 function afterConnection() {
-    connection.query("SELECT * FROM PRODUCTS_DB", function(err, res) {
+    connection.query("SELECT * FROM PRODUCTS", function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table(res)
+        questions();
         connection.end();
     });
 }
 
 
 function readProducts() {
-    console.table("Selecting all products...\n");
-    connection.query("SELECT * FROM PRODUCTS", function(err, res) {
-        if (err) throw err;
-        // Log all results of the SELECT statement
-        console.log(res);
-        connection.end();
-    });
+    console.log("readProducts() is connected");
+    connection.query("SELECT STOCK_QUANTITY FROM PRODUCTS where ITEM_ID is ?", [{
+            ITEM_ID: answers.id
+        }],
+        function qtyCheck() {
+            if (ITEM_ID < answers.qty) {
+                console.log("Items are backordered, please reduce your quantity request.")
+            } else {
+                updateProduct()
+            }
+        },
+        function(err, res) {
+            if (err) throw err;
+            // Log all results of the SELECT statement
+            console.log(res);
+
+        });
 }
 
 // function createProduct() {
